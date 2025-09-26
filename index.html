@@ -26,6 +26,8 @@
 />
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css" />
 
+<link rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css">
 
 <!-- Bootstrap JS Bundle -->
 <script
@@ -1284,6 +1286,8 @@ html, body {
 #rotate-word {
   color: #f39c12; /* Stylish orange */
   transition: opacity 0.5s ease-in-out;
+  font-size: 22px;
+
 }
 .dis {
   text-align: left;
@@ -1499,7 +1503,7 @@ html, body {
   </nav>
 
  <!-- Home -->
-<section id="home" class="section-box" data-animation="animate__fadeIn" >
+<section id="home" class="section-box" data-animation="fadeIn" >
   <div class="home-content">
     
     <!-- 🧠 Left: Text Content -->
@@ -1551,7 +1555,7 @@ html, body {
 
 
   <!-- About Section -->
-<section id="about" class="section-box" data-animation="animate__fadeInLeft" style="margin-top:50px">
+<section id="about" class="section-box" data-animation="fadeIn" style="margin-top:50px">
   <div class="about-card about-layout" style="display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: 30px;">
     
     <!-- Glowing Profile Image Frame -->
@@ -1587,7 +1591,7 @@ html, body {
 
 
 <!-- Skills -->
-<section id="skills" class="section-box" data-animation="animate__fadeInUp">
+<section id="skills" class="section-box" data-animation="fadeIn">
   <h2 class="gradient-heading text-center mb-4">Skills</h2>  
   <p class="text-center mb-5">
   </p>
@@ -1686,7 +1690,7 @@ html, body {
 </section>
 
 
-<section id="Education" class="section-box" data-animation="animate__fadeRInight">
+<section id="Education" class="section-box" data-animation="fadeIn">
   <h2 class="section-title" data-aos="fade-down">Education & Career</h2>
   <div class="grid-container container">
 
@@ -1740,7 +1744,7 @@ html, body {
 
 
 <!-- Projects -->
-<section id="projects" class="section-box" data-animation="animate__zoomIn">
+<section id="projects" class="section-box" data-animation="fadeIn">
   <h2 class="text-center mb-5" style="color:orange">Projects</h2>
 
   <div id="projectsCarousel" style="margin-top:-60px;" class="carousel slide" data-bs-ride="carousel" data-bs-interval="2000">
@@ -1926,7 +1930,7 @@ html, body {
   </div>
 </section>
 
-<section id="Contact" class="section-box" data-animation="animate__fadeRight">
+<section id="Contact" class="section-box" data-animation="fadeIn">
     <div class="contact-container">
       <!-- Contact Boxes -->
     <div class="form-section">
@@ -2099,26 +2103,27 @@ html, body {
   }, 2000); // Change word every 2 seconds
 </script>
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    const boxes = document.querySelectorAll('.section-box');
+document.addEventListener("DOMContentLoaded", () => {
+  const boxes = document.querySelectorAll('.section-box');
 
-    const observer = new IntersectionObserver(entries => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          const anim = entry.target.getAttribute('data-animation');
-          entry.target.classList.add('animate__animated', anim);
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const anim = entry.target.dataset.animation; // e.g., fadeIn, fadeInUp
+        entry.target.classList.add('animate__animated', `animate__${anim}`);
 
-          // Remove animation classes after it ends
-          entry.target.addEventListener('animationend', () => {
-            entry.target.classList.remove('animate__animated', anim);
-          }, { once: true });
-        }
-      });
-    }, { threshold: 0.2 });
+        // Remove classes after animation ends (so it can replay if you scroll back)
+        entry.target.addEventListener('animationend', () => {
+          entry.target.classList.remove('animate__animated', `animate__${anim}`);
+        }, { once: true });
+      }
+    });
+  }, { threshold: 0.2 });
 
-    boxes.forEach(box => observer.observe(box));
-  });
+  boxes.forEach(box => observer.observe(box));
+});
 </script>
+
 <script>
   let lastGlowTime = 0;
 
@@ -2164,6 +2169,7 @@ html, body {
     
 </body>
 </html>
+
 
 
 
