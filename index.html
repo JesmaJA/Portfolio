@@ -175,10 +175,6 @@ html, body {
   height: auto;
   box-sizing: border-box;
  scroll-margin-top:100px;
-  transition: all 0.3s ease-in-out;
-}
-.section-box.animate__animated {
-  --animate-duration: 3.5s;  /* Smooth slow animation */
 }
 
 
@@ -1468,6 +1464,9 @@ html, body {
     font-size: 14px;
   }
 }
+ .animate__animated {
+  --animate-duration: 5s;
+}
   </style>
 </head>
 <body>
@@ -1503,7 +1502,7 @@ html, body {
   </nav>
 
  <!-- Home -->
-<section id="home" class="section-box" data-animation="fadeIn" >
+<section id="home" class="section-box"  >
   <div class="home-content">
     
     <!-- 🧠 Left: Text Content -->
@@ -2028,21 +2027,7 @@ html, body {
 </script>
 
 
-  <script>
-    // Home profile image rotate once on click
-    const profileImg = document.getElementById("home-profile-img");
-    let rotated = false;
-    profileImg.addEventListener("click", () => {
-      if (!rotated) {
-        profileImg.classList.add("rotated");
-        rotated = true;
-        setTimeout(() => {
-          profileImg.classList.remove("rotated");
-          rotated = false;
-        }, 1000);
-      }
-    });
-  </script>
+  
 
   <script>
   document.addEventListener('DOMContentLoaded', () => {
@@ -2109,13 +2094,14 @@ document.addEventListener("DOMContentLoaded", () => {
   const observer = new IntersectionObserver(entries => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
-        const anim = entry.target.dataset.animation; // e.g., fadeIn, fadeInUp
-        entry.target.classList.add('animate__animated', `animate__${anim}`);
+        const anim = entry.target.dataset.animation; // e.g. fadeIn, fadeInUp
 
-        // Remove classes after animation ends (so it can replay if you scroll back)
-        entry.target.addEventListener('animationend', () => {
-          entry.target.classList.remove('animate__animated', `animate__${anim}`);
-        }, { once: true });
+        // Reset animation so it can replay
+        entry.target.classList.remove('animate__animated', `animate__${anim}`);
+        void entry.target.offsetWidth; // reflow trick
+
+        // Add animation again (3s duration applies from CSS)
+        entry.target.classList.add('animate__animated', `animate__${anim}`);
       }
     });
   }, { threshold: 0.2 });
@@ -2169,6 +2155,7 @@ document.addEventListener("DOMContentLoaded", () => {
     
 </body>
 </html>
+
 
 
 
